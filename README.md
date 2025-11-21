@@ -1,4 +1,4 @@
-## Auth Backend (Node.js + Express + MongoDB)
+## Authentication System (Node.js + Express + MongoDB)
 
 JWT auth with HTTP-only cookie, bcrypt passwords, role-based access, forgot/reset password (Nodemailer), rate-limited login, and admin user list.
 
