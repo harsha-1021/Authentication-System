@@ -1,109 +1,122 @@
-## Authentication System (Node.js + Express + MongoDB)
+🔐 Authentication System (Node.js + Express + MongoDB)
 
-JWT auth with HTTP-only cookie, bcrypt passwords, role-based access, forgot/reset password (Nodemailer), rate-limited login, and admin user list.
+A secure and production-ready authentication system featuring JWT auth, HTTP-only cookies, bcrypt password hashing, role-based access, forgot/reset password via Nodemailer, and rate-limited login.
+Perfect for full-stack apps, dashboards, admin panels, and placement projects.
 
-### Stack
-- Node.js, Express, Mongoose, JWT
-- bcrypt (salt rounds 10), express-validator, express-rate-limit
-- cookie-parser, cors, morgan
-- Nodemailer (SMTP)
+🚀 Tech Stack
 
-### Folder Structure
-```
-config/          # db connection
-controllers/     # route handlers
+-Node.js, Express.js
+
+-MongoDB + Mongoose
+
+-JWT (JSON Web Tokens)
+
+-bcrypt (salt rounds = 10)
+
+-express-validator
+
+-express-rate-limit
+
+-cookie-parser, cors, morgan
+
+-Nodemailer (SMTP)
+
+📁 Folder Structure
+config/          # database connection
+controllers/     # request handlers
 middlewares/     # auth, error handler, rate limiter
-models/          # Mongoose models
+models/          # mongoose models
 routes/          # express routes
 utils/           # helpers (jwt, mailer)
 public/          # optional demo page
-server.js
+server.js        # app entry point
 package.json
-.env.example
-```
+.env.example     # env template
 
-### Environment Variables
-Copy `.env.example` to `.env` and set values:
-```
+🔧 Environment Variables
+Copy .env.example → .env and update:
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/auth-db
+
 JWT_SECRET=supersecretjwt
 CLIENT_URL=http://localhost:3000
 COOKIE_NAME=token
 RESET_TOKEN_EXP_MINUTES=15
 
-SMTP_SERVICE=gmail          # e.g., gmail (optional if host/port used)
+# SMTP (Gmail or any SMTP server)
+SMTP_SERVICE=gmail
 SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587               # 465 for SMTPS
+SMTP_PORT=587
 SMTP_USER=your_gmail_address
-SMTP_PASS=your_app_password # Gmail app password (not your login)
+SMTP_PASS=your_app_password
 SMTP_FROM="Auth App <your_gmail_address>"
-```
 
-### Install & Run
-```bash
+
+🛠 Installation & Run
 npm install
-npm run dev   # nodemon
-# or npm start
-```
+npm run dev     # nodemon
+# or
+npm start
 
-### API Routes
-- `POST /auth/signup` — body: `{ name, email, password, role? }`
-- `POST /auth/login` — body: `{ email, password }` (rate-limited 5/15m)
-- `POST /auth/logout`
-- `POST /auth/forgot-password` — body: `{ email }`
-- `POST /auth/reset-password/:token` — body: `{ password }`
-- `GET  /auth/profile` — auth required (cookie)
-- `GET  /auth/admin/users` — admin role required
 
-### Testing with PowerShell
-Signup:
-```powershell
+📌 API Routes
+| Method | Endpoint                      | Description                |
+| ------ | ----------------------------- | -------------------------- |
+| POST   | `/auth/signup`                | Create new user            |
+| POST   | `/auth/login`                 | Login (rate-limited 5/15m) |
+| POST   | `/auth/logout`                | Logout                     |
+| POST   | `/auth/forgot-password`       | Send reset link            |
+| POST   | `/auth/reset-password/:token` | Reset password             |
+
+
+Protected Routes
+| Method | Endpoint            | Access              |
+| ------ | ------------------- | ------------------- |
+| GET    | `/auth/profile`     | Authenticated users |
+| GET    | `/auth/admin/users` | Admin only          |
+
+
+🧪 Testing (PowerShell Examples)
+Signup
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/signup" `
   -ContentType "application/json" `
   -Body '{ "name":"Test", "email":"test@example.com", "password":"secret123", "role":"admin" }'
-```
-Login (stores session):
-```powershell
+
+Login (stores session)
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/login" `
   -ContentType "application/json" `
   -Body '{ "email":"test@example.com", "password":"secret123" }' `
   -SessionVariable sess
-```
-Profile:
-```powershell
+
+Profile
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/auth/profile" -WebSession $sess
-```
-Admin list:
-```powershell
+
+Admin users list
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/auth/admin/users" -WebSession $sess
-```
-Forgot password (email must exist):
-```powershell
+
+Forgot Password
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/forgot-password" `
   -ContentType "application/json" `
   -Body '{ "email":"test@example.com" }'
-```
-Reset password (token from email/log):
-```powershell
+
+Reset Password
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/reset-password/<token>" `
   -ContentType "application/json" `
   -Body '{ "password":"newpass123" }'
-```
-Logout:
-```powershell
+
+Logout
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/logout" -WebSession $sess
-```
 
-### SMTP (Gmail)
-- Enable 2FA on the Gmail account.
-- Create an App Password (16 chars) and set `SMTP_PASS` to it.
-- Set `SMTP_USER` and `SMTP_FROM` to your Gmail address.
-- Restart the server after updating `.env`.
+📬 SMTP Setup (Gmail)
+1. Enable 2-Step Verification on your Gmail account.
+2. Create an App Password (16 characters).
+3. Set SMTP_PASS to that app password.
+4. Restart your server.
 
-### Notes
-- JWT expiry: 1 day; stored in HTTP-only cookie named by `COOKIE_NAME`.
-- Bcrypt salt rounds: 10.
-- CORS allows `CLIENT_URL` with credentials.
-- Login rate limit: 5 attempts per 15 minutes.
-- Forgot/reset will log the reset link if email fails (fallback for debugging).
+📝 Notes
+-JWT expiry: 1 day, stored in HTTP-only cookie
+-Bcrypt salt rounds: 10
+-CORS allows CLIENT_URL with credentials
+-Login rate limit: 5 attempts per 15 minutes
+-If SMTP fails, reset link will still print in console for debugging
+
