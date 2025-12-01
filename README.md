@@ -5,58 +5,61 @@ Perfect for full-stack apps, dashboards, admin panels, and placement projects.
 
 🚀 Tech Stack
 
--Node.js, Express.js
+- Node.js, Express.js
 
--MongoDB + Mongoose
+- MongoDB + Mongoose
 
--JWT (JSON Web Tokens)
+- JWT (JSON Web Tokens)
 
--bcrypt (salt rounds = 10)
+- bcrypt (salt rounds = 10)
 
--express-validator
+- express-validator
 
--express-rate-limit
+- express-rate-limit
 
--cookie-parser, cors, morgan
+- cookie-parser, cors, morgan
 
--Nodemailer (SMTP)
+- Nodemailer (SMTP)
 
 📁 Folder Structure
-config/          # database connection
-controllers/     # request handlers
+```
+config/          # db connection
+controllers/     # route handlers
 middlewares/     # auth, error handler, rate limiter
-models/          # mongoose models
+models/          # Mongoose models
 routes/          # express routes
 utils/           # helpers (jwt, mailer)
 public/          # optional demo page
-server.js        # app entry point
+server.js
 package.json
-.env.example     # env template
+.env.example
+```
 
 🔧 Environment Variables
-Copy .env.example → .env and update:
+Copy `.env.example` to `.env` and set values:
+```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/auth-db
-
 JWT_SECRET=supersecretjwt
 CLIENT_URL=http://localhost:3000
 COOKIE_NAME=token
 RESET_TOKEN_EXP_MINUTES=15
 
-# SMTP (Gmail or any SMTP server)
-SMTP_SERVICE=gmail
+SMTP_SERVICE=gmail          # e.g., gmail (optional if host/port used)
 SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
+SMTP_PORT=587               # 465 for SMTPS
 SMTP_USER=your_gmail_address
-SMTP_PASS=your_app_password
+SMTP_PASS=your_app_password # Gmail app password (not your login)
 SMTP_FROM="Auth App <your_gmail_address>"
+```
 
 
 🛠 Installation & Run
+```bash
 npm install
-npm run dev     # nodemon
-# or
-npm start
+npm run dev   # nodemon
+# or npm start
+```
 
 
 📌 API Routes
