@@ -114,9 +114,9 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/logout" -WebSess
 4. Restart your server.
 
 📝 Notes
--JWT expiry: 1 day, stored in HTTP-only cookie
--Bcrypt salt rounds: 10
--CORS allows CLIENT_URL with credentials
--Login rate limit: 5 attempts per 15 minutes
--If SMTP fails, reset link will still print in console for debugging
+- JWT expiry: 1 day, stored in HTTP-only cookie
+- Bcrypt salt rounds: 10
+- CORS allows CLIENT_URL with credentials
+- Login rate limit: 5 attempts per 15 minutes
+- If SMTP fails, reset link will still print in console for debugging
 
