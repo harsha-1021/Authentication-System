@@ -81,34 +81,48 @@ Protected Routes
 
 🧪 Testing (PowerShell Examples)
 Signup
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/signup" `
   -ContentType "application/json" `
   -Body '{ "name":"Test", "email":"test@example.com", "password":"secret123", "role":"admin" }'
+```
 
 Login (stores session)
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/login" `
   -ContentType "application/json" `
   -Body '{ "email":"test@example.com", "password":"secret123" }' `
   -SessionVariable sess
+```
 
 Profile
+```powershell
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/auth/profile" -WebSession $sess
+```
 
 Admin users list
+```powershell
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/auth/admin/users" -WebSession $sess
+```
 
 Forgot Password
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/forgot-password" `
   -ContentType "application/json" `
   -Body '{ "email":"test@example.com" }'
+```
 
 Reset Password
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/reset-password/<token>" `
   -ContentType "application/json" `
   -Body '{ "password":"newpass123" }'
+```
 
 Logout
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:5000/auth/logout" -WebSession $sess
+```
 
 📬 SMTP Setup (Gmail)
 1. Enable 2-Step Verification on your Gmail account.
