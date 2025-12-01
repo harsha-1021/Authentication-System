@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auth Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    form { margin-bottom: 20px; padding: 12px; border: 1px solid #ddd; }
+    input { display: block; margin: 6px 0; padding: 6px; width: 100%; }
+    button { padding: 8px 12px; }
+    pre { background: #f7f7f7; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Auth Demo</h1>
+  <form id="signupForm">
+    <h3>Signup</h3>
+    <input name="name" placeholder="Name" required />
+    <input name="email" placeholder="Email" type="email" required />
+    <input name="password" placeholder="Password" type="password" required />
+    <button type="submit">Signup</button>
+  </form>
+
+  <form id="loginForm">
+    <h3>Login</h3>
+    <input name="email" placeholder="Email" type="email" required />
+    <input name="password" placeholder="Password" type="password" required />
+    <button type="submit">Login</button>
+  </form>
+
+  <form id="profileForm">
+    <h3>Profile</h3>
+    <button type="submit">Get Profile</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    const api = "http://localhost:5000/auth";
+    const out = document.getElementById("output");
+
+    async function request(path, method, data) {
+      const res = await fetch(api + path, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: data ? JSON.stringify(data) : undefined
+      });
+      const body = await res.json();
+      out.textContent = JSON.stringify(body, null, 2);
+    }
+
+    document.getElementById("signupForm").onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      request("/signup", "POST", Object.fromEntries(fd));
+    };
+
+    document.getElementById("loginForm").onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      request("/login", "POST", Object.fromEntries(fd));
+    };
+
+    document.getElementById("profileForm").onsubmit = (e) => {
+      e.preventDefault();
+      request("/profile", "GET");
+    };
+  </script>
+</body>
+</html>
